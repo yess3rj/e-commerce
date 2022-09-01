@@ -11,6 +11,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../assets/owl-logo.png'
 import { Link } from 'react-router-dom'
 import { Badge } from '@mui/material';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/Auth.jsx';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -55,9 +57,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar(props) {
+export default function Navbar(props) {
   const {value, setValue} = props
   const handleChange=(e)=>setValue(e.target.value)
+  const { isAuth, logout } = useContext(AuthContext)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -91,7 +94,27 @@ export default function SearchAppBar(props) {
               onChange={handleChange}
             />
           </Search>
-          <Button component={Link} to="/login" color="inherit">
+          <Button component={Link} to="/" color="inherit">
+            Home
+          </Button>
+          {isAuth ? (
+            <Button component={Link} to="/dashboard" color="inherit">
+            Dashboard
+          </Button>
+          ) : (
+            <></>
+          )}
+          {isAuth ? (
+            <Button component={Link} to="/" color="inherit" onClick={logout}>
+            Logout
+          </Button>
+          ) :(
+            <></>
+          )}
+
+          {!isAuth ? (
+            <>
+            <Button component={Link} to="/login" color="inherit">
             Login
           </Button>
           <Button component={Link} to="/signup" color="inherit">
@@ -102,6 +125,11 @@ export default function SearchAppBar(props) {
             <ShoppingCartIcon />
             </Badge>
           </IconButton>
+          </>
+          ) : (
+            <></>
+          )}
+          
           
         </Toolbar>
       </AppBar>
