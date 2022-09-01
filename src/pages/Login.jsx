@@ -1,3 +1,8 @@
+import { useContext } from 'react';
+import useForm from '@/hooks/useForm';
+import { LoginUser } from '@/services/UserServices.js';
+import { AuthContext } from '@/context/Auth.jsx'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,15 +30,28 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+function Login() {
+  const { loginUser } = useContext(AuthContext)
+  const navigate = useNavigate();
+  // Funcion que envia los datos
+  const sendData = async (data) => {
+    try {
+      const result = await LoginUser(data);
+
+      if (result.status === 200) {
+        loginUser(result.data.token)
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      alert('Ocurrió un error: ' + error.message);
+    }
   };
+
+  // Estado inicial con el hook useForm
+  const { input, handleInputChange, handleSubmit } = useForm(sendData, {
+    email: '',
+    password: '',
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,9 +69,9 @@ export default function SignIn() {
             <AccountCircleIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -61,6 +79,8 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
+              onChange={handleInputChange}
+              value={input.email}
               autoComplete="email"
               autoFocus
             />
@@ -72,16 +92,19 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              onChange={handleInputChange}
+              value={input.password}
               autoComplete="current-password"
             />
            
             <Button
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
               <Grid item xs>
@@ -90,7 +113,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link component={RouterLink} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -103,3 +126,4 @@ export default function SignIn() {
   );
 }
 
+export default Login;

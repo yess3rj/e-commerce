@@ -8,7 +8,6 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddShoppingCart } from '@mui/icons-material';
 import accounting from 'accounting';
@@ -24,7 +23,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function Product() {
+export default function Product({product: {product_name, brand, image, price, category, description}}) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -35,28 +34,27 @@ export default function Product() {
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         action={
-          <><IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton><Typography
+          <>
+          <Typography
             variant='h5'
             color='textSecondary'
           >
-
-              {accounting.formatMoney(555)}
+              {accounting.formatMoney({price})}
             </Typography></>
         }
-        title="Product name"
-        subheader="Brand"
+        titleTypographyProps={{variant:'p' }}
+        title={product_name}
+        subheader={brand}
       />
       <CardMedia
         component="img"
         height="194"
-        image=""
+        image={image}
         alt="Image"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Category
+          {category}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -75,7 +73,7 @@ export default function Product() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            Description
+            {description}
           </Typography>
         </CardContent>
       </Collapse>

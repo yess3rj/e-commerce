@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
+import Product from './Product';
  
 //https://ecomerce-master.herokuapp.com/api/v1/item
  
@@ -21,16 +22,17 @@ export default function Products() {
     axios
       .get('https://ecomerce-master.herokuapp.com/api/v1/item')
       .then((result) => {
+        //console.log(result);
         setProducts(result.data);
-        console.log(result);
       });
   }, []);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ margin: '110px 50px' }}>
       <Grid container spacing={2}>
-        {products.map((product) => (
+        {products && products.map((product) => (
           <Grid item xs={12} sm={6} md={4} lg={3}>
-            <Product key={product.id} product={product} />
+            <Product key={product._id} product={product} />
           </Grid>
         ))}
       </Grid>

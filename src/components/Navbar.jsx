@@ -7,8 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../../public/owl-logo.png'
 import { Link } from 'react-router-dom'
+import { Badge } from '@mui/material';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -41,7 +43,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(6)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -56,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ background: '#9f7fcc' }}>
+      <AppBar position="fixed" style={{ background: '#9f7fcc' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -84,13 +86,18 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button component={Link} to="/signin" color="inherit">
-            Sign In
+          <Button component={Link} to="/login" color="inherit">
+            Login
           </Button>
           <Button component={Link} to="/signup" color="inherit">
             Sign Up
           </Button>
-        
+          <IconButton aria-label='show cart items' color="inherit">
+            <Badge badgeContent={4} color="secondary">
+            <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          
         </Toolbar>
       </AppBar>
     </Box>

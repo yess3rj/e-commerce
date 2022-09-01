@@ -1,4 +1,6 @@
 import useForm from '@/hooks/useForm';
+import { RegisterUser } from '@/services/UserServices.js';
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -32,7 +34,19 @@ function Copyright(props) {
   const theme = createTheme();
 
 function SignUp() {
-  const sendData = ()=>console.log('sendData');
+  const navigate = useNavigate()
+
+  const sendData = async (data) => {
+    try {
+      const result = await RegisterUser(data);
+
+      if(result.status === 200) {
+        navigate('/login')
+      }
+    } catch (error) {
+      alert('Ocurrió un error: ' + error.message);
+    }
+  };
 
   const { input, handleInputChange, handleSubmit } = useForm(sendData, {
     first_name: '',
@@ -83,6 +97,8 @@ function SignUp() {
                   id="last-name"
                   label="Last Name"
                   name="last_name"
+                  onChange={handleInputChange}
+                  value={input.last_name}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -94,6 +110,9 @@ function SignUp() {
                     id='date'
                     label="Birthday"
                     type="date"
+                    name='birth_date'
+                    onChange={handleInputChange}
+                    value={input.birth_date}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -107,7 +126,10 @@ function SignUp() {
                     <InputLabel id="">Gender</InputLabel>
                     <Select
                     labelId=""
-                    id=""
+                    id="gender"
+                    name='gender'
+                    onChange={handleInputChange}
+                    value={input.gender}
                     label="Gender"
                     >
                         <MenuItem value='M'>M</MenuItem>
@@ -117,7 +139,7 @@ function SignUp() {
               </Box>
               </Grid>
               
-              </Grid>
+              
               <Grid item xs={12}>
                 <TextField
                   required
@@ -126,6 +148,8 @@ function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  onChange={handleInputChange}
+                  value={input.email}
                   autoComplete="email"
                 />
               </Grid>
@@ -137,22 +161,26 @@ function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  onChange={handleInputChange}
+                  value={input.password}
                   autoComplete="new-password"
                 />
               </Grid>
+            </Grid>
               
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              onClick={handleSubmit}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link component={RouterLink} to="/login" variant="body2">
+                  Already have an account? Login
                 </Link>
               </Grid>
             </Grid>
