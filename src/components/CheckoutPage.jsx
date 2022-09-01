@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { Typography } from '@mui/material';
 import CheckoutCard from './CheckoutCard';
+import { Total } from './Total';
  
  
 const Item = styled(Paper)(({ theme }) => ({
@@ -56,7 +57,7 @@ const CheckoutPage = () => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <Typography align='center' gutterBottom variant='h4'>
-                Total
+                <Total />
             </Typography>
         </Grid>
     </Grid>

@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddShoppingCart } from '@mui/icons-material';
-import accounting from 'accounting';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,7 +38,7 @@ export default function Product({product: {product_name, brand, image, price, ca
             variant='h5'
             color='textSecondary'
           >
-              {accounting.formatMoney({price})}
+              {'$' + price}
             </Typography></>
         }
         titleTypographyProps={{variant:'p' }}

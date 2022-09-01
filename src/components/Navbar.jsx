@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import logo from '../../public/owl-logo.png'
+import logo from '../assets/owl-logo.png'
 import { Link } from 'react-router-dom'
 import { Badge } from '@mui/material';
 
@@ -55,7 +55,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar(props) {
+  const {value, setValue} = props
+  const handleChange=(e)=>setValue(e.target.value)
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" style={{ background: '#9f7fcc' }}>
@@ -84,6 +87,8 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={value}
+              onChange={handleChange}
             />
           </Search>
           <Button component={Link} to="/login" color="inherit">
